@@ -1,3 +1,6 @@
+// Pitou Teng
+// pitou_teng@student.uml.edu
+// GUI Programming I
 pieces = [
 	{"letter":"A", "value":1,  "amount":9},
 	{"letter":"B", "value":3,  "amount":2},

@@ -1,5 +1,8 @@
+// Pitou Teng
+// pitou_teng@student.uml.edu
+// GUI Programming I
 
-// draw_letter();
+
 const special_tiles = {"double_letter_score":4, "double_word_score":8}
 var tile_size = 65;
 var total_score = 0;
