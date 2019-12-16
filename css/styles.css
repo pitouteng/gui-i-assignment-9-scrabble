@@ -5,34 +5,34 @@
   margin-top: 200px;
 } */
 
+/* give body margin to avoid anything going over the edge */
 body{
   margin: 50px;
-}
-
-#board_box{
-    margin: 5px;
 }
 
 button{
   margin-left: 40px;
 }
 
+/* give space between the board and tile */
 #score_board{
   margin-top: 50px;
   margin-bottom: 50px;
 }
 
+/* give space to the left */
 h2#score{
   margin-left: 40px;
 }
 
-
+/* center board section and set min width to so it wont shrink less than the board */
 #board_holder{
   min-width: 1080px;
   margin-left: auto;
   margin-right: auto;
 }
 
+/* style for tiles with tile_holder image as background */
 #tile_holder{
   margin: 0 auto 0 auto;
   padding: 50px;
@@ -41,11 +41,7 @@ h2#score{
   background-image: url("../asset/tile_holder.png");
 }
 
-div[id^='board_box_container'] {
-  background-color: red;
-  margin: 6px;
-}
-
+/* tile float left in horizontal line */
 div[id^='tile'] {
   margin: 5px;
   float: left;

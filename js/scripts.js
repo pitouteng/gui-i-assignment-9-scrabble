@@ -12,29 +12,31 @@ $(document).ready(function() {
   set_up_board();
   set_up_tiles();
 
+  // submit word button
   $("button").click(function(){
-    clear_reset_board();
-    tally_score();
+    clear_reset_board(); // clear anything that is placed on board and replace each tiles with new one
+    tally_score(); // tally the score
   });
 });
 
 function set_up_board(){
     for (var i = 0; i < 12; i++) {
-      if (i == special_tiles.double_letter_score) {
+      if (i == special_tiles.double_letter_score) { // double letter box for this index
         $('div#board_holder').append("<img id=\"board_box"+i+"\" src=\"asset/board/double_letter_score.png\">");
-      } else if (i == special_tiles.double_word_score) {
+      } else if (i == special_tiles.double_word_score) {  // double word box for this index
         $('div#board_holder').append("<img id=\"board_box"+i+"\" src=\"asset/board/double_word_score.png\">");
-      } else {
+      } else { // regular box for other index
         $('div#board_holder').append("<img id=\"board_box"+i+"\" src=\"asset/board/blank_board.png\">");
       }
     }
 
     var board_boxes = $("[id^='board_box']");
+    // board boxes are bigger than tile by 25
     board_boxes.width(tile_size+25);
     board_boxes.height(tile_size+25);
     board_boxes.droppable({
         drop: function( event, ui) {
-          // snap
+          // set the tile position so it snaps to the board box
           box_pos = $(this).position();
           $("#"+ui.draggable.attr("id")).css({top: box_pos.top + 5, left: box_pos.left+7, position:'absolute'});;
         },
@@ -46,7 +48,7 @@ function clear_reset_board() {
     var tile = $("#tile"+i);
     for (var j = 0; j < 12; j++) {
       var box = $("#board_box"+j);
-      if (tile_is_in_box(tile.position(), box.position())) {
+      if (tile_is_in_box(tile.position(), box.position())) { // remove the tile that is in board box
         // remove the tile
         $("#tile"+i).remove();
         // replace the tile
@@ -61,21 +63,22 @@ function clear_reset_board() {
 function tally_score() {
   $("#score").text();
   total_score = total_score + parseInt($("span#score").text());
-  $("span#total").text(total_score);
-  $("span#score").text(0);
+  $("span#total").text(total_score); // accumulate to the total
+  $("span#score").text(0); // reset score
 }
 
 function calculate_score(id_tile){
   var score = 0;
   var double_score = false;
+  // loop though tiles and board_boxes to see if tile is in board and add up the score
   for(var i in drawn_tiles){
     var tile = $("#tile"+i);
     for (var j = 0; j < 12; j++) {
       var box = $("#board_box"+j);
       if (tile_is_in_box(tile.position(), box.position())) {
-        if(j == special_tiles.double_letter_score){
+        if(j == special_tiles.double_letter_score){ // the board that tile is in is double_letter_score
           score = score + (drawn_tiles[i].value * 2);
-        } else if(j == special_tiles.double_word_score){
+        } else if(j == special_tiles.double_word_score){ // the board that tile is in is double_word_score
           double_score = true;
           score = score + drawn_tiles[i].value;
         } else {
@@ -91,7 +94,7 @@ function calculate_score(id_tile){
   $("span#score").text(score);
 }
 
-
+// inital tile set up
 function set_up_tiles() {
   var piece;
   var img_letter_name;
@@ -103,6 +106,8 @@ function set_up_tiles() {
   }
 }
 
+// check if the position of a tile is in the box
+// takes in a tile position and a box position
 function tile_is_in_box(tile_pos, box_pos){
   // console.log(box_pos);
   var top_dif = tile_pos.top - box_pos.top;
@@ -114,6 +119,8 @@ function tile_is_in_box(tile_pos, box_pos){
   }
 }
 
+// given the tile info(letter, value and amount) and the tile index
+// add the approiate img to html
 function add_tile_img(tile_info, tile_number){
   if (tile_info.letter == "_") {
     img_letter_name = "Blank";
@@ -127,26 +134,27 @@ function add_tile_img(tile_info, tile_number){
     snapTolerance: 5,
     revert: "invalid",
     stop: function(event, ui) {
+      // calculate score everytime the drag stop
       calculate_score();
     }
   })
 }
 
+// draw one of the piece from the pieces with 100 inital count
 function draw_piece() {
-  var rand = Math.floor(Math.random() * tiles_count()) + 1;
+  var t_count = tiles_count();
+  var rand = Math.floor(Math.random() * t_count) + 1;
   var piece_count = 0;
-  for(var x in pieces){
-    piece_count = piece_count + pieces[x].amount;
-  }
-  if (piece_count > 0) {
+  // only draw when there is piece in the bag
+  if (t_count > 0) {
     for(var x in pieces) {
       rand = rand - pieces[x].amount;
       if (rand <= 0) {
         pieces[x].amount = pieces[x].amount - 1;
         // update number of tile on screen
         var num_tile = parseInt($("#tiles_in_bag").text());
-        piece_count = piece_count - 1;
-        $("#tiles_in_bag").text(piece_count);
+        t_count = t_count - 1;
+        $("#tiles_in_bag").text(t_count);
         return pieces[x];
       }
     }
@@ -156,6 +164,7 @@ function draw_piece() {
   }
 }
 
+// count the number of tiles in the bag
 function tiles_count() {
   var t = 0;
   for(var x in pieces){
