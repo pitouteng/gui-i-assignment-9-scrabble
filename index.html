@@ -13,13 +13,20 @@
   <script type="text/javascript" src="js/scripts.js"></script>
   </head>
   <body>
-    <h1>Scrabble V1.0</h1>
+    <div class="row">
+      <h1 class="bg-warning rounded">Scrabble V1.0</h1>
+    </div>
+    <div class="row justify-content-center">
+      <h2><span id="tiles_in_bag">93</span> Tiles left in the bag</h2>
+    </div>
     <div class="row">
       <div id="board_holder" class="row">
       </div>
     </div>
-    <div class="row">
-      <h2>Score: <span>0</span></h2>
+    <div id="score_board" class="row justify-content-center">
+      <h2>Total: <span id=total>0</span></h2>
+      <h2 id="score">Score: <span id=score>0</span></h2>
+      <button class="btn btn-light" type="button" name="sumbit word">Submit Word</button>
     </div>
     <div class="row"">
       <div id="tile_holder">
